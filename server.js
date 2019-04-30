@@ -13,10 +13,23 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static('/public'));
 
 app.get('/location', (request, response) => {
-  response.status(200).send('Success!');
+  response.send(searchLocation());
 });
 
 
 app.use('*', (request, repsonse) => response.send('Sorry, that route does not exist'));
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+
+//Function to search location
+function searchLocation(){
+  return new Location(require('./data/geo.json'));
+}
+
+function Location(data) {
+  this.formatted_query= data.results[0].formatted_address;
+  this.latitude = data.results[0].geometry.location.lat;
+  this.longitude = data.results[0].geometry.location.lng;
+}
+
