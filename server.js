@@ -18,7 +18,7 @@ app.get('/location', (request, response) => {
     console.log(locationObject);
     response.send(locationObject);
   }catch (error){
-    response.status(500).send('Sorry, something went wrong.');
+    handleError(response);
   }
 
 });
@@ -29,7 +29,7 @@ app.get('/weather', (request, response) => {
     console.log(weatherObject);
     response.send(weatherObject);
   }catch (error){
-    response.status(500).send('Sorry, something went wrong.');
+    handleError(response);
   }
 
 
@@ -68,5 +68,9 @@ function Location(query, data) {
 function Weather(forecast, time){
   this.forecast = forecast;
   this.time = new Date(time).toDateString();
+}
+
+function handleError(response){
+  response.status(500).send({status:500, responseText:'Sorry, something went wrong.'});
 }
 
