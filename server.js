@@ -13,16 +13,25 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static('/public'));
 
 app.get('/location', (request, response) => {
-  let locationObject = searchLocation(request.query.data);
-  console.log(locationObject);
-  response.send(locationObject);
+  try {
+    let locationObject = searchLocation(request.query.data);
+    console.log(locationObject);
+    response.send(locationObject);
+  }catch (error){
+    response.status(500).send('Sorry, something went wrong.');
+  }
 
 });
 
 app.get('/weather', (request, response) => {
-  let weatherObject = getWeather();
-  console.log(weatherObject);
-  response.send(weatherObject);
+  try {
+    let weatherObject = getWeather();
+    console.log(weatherObject);
+    response.send(weatherObject);
+  }catch (error){
+    response.status(500).send('Sorry, something went wrong.');
+  }
+
 
 });
 
@@ -38,7 +47,8 @@ function searchLocation(searchQuery){
   return new Location(searchQuery, require('./data/geo.json'));
 }
 
-function getWeather(){
+function getWeather(lattitude, longitude){
+  //TODO check lat/lng and get weather based on those.
   let weatherArray = [];
   let data = require('./data/darksky.json');
   data.daily.data.forEach(day => {
