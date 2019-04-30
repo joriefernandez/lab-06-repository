@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').config();
+require('dotenv').config;
 
 const express =  require('express');
 const app = express();
@@ -10,7 +10,7 @@ app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static('/public'));
+app.use(express.static('./public'));
 
 app.get('/location', (request, response) => {
   try {
@@ -67,7 +67,7 @@ function Location(query, data) {
 
 function Weather(forecast, time){
   this.forecast = forecast;
-  this.time = new Date(time).toDateString();
+  this.time = new Date(time * 1000).toDateString();
 }
 
 function handleError(response){
